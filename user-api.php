@@ -28,7 +28,43 @@ class UserApi {
         register_rest_route('el/v1', 'user', [
             'methods' => \WP_REST_Server::CREATABLE,
             'callback' => [ $this, 'create_user' ],
-            'permission_callback' => [ $this, 'check_access' ]
+            'permission_callback' => [ $this, 'check_access' ],
+            'args' => [
+                'username' => [
+                    'required' => true
+                ],
+                'password' => [
+                    'required' => true
+                ],
+                'name' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'phone_number' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'email_address' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'validate_callback' => 'is_email',
+                    'sanitize_callback' => 'sanitize_email'
+                ],
+                'budget' => [
+                    'required' => true,
+                    'validate_callback' => function($value, $request, $param) {
+                        return is_numeric($value) && (is_int($value) && $value > 0);
+                    },
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'message' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ]
+            ]
         ], true);
     }
 
