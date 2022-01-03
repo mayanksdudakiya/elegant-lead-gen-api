@@ -21,6 +21,7 @@ class Plugin {
 
     private function includes() {
         require WP_ELEGANT_LEAD_GEN_PATH . 'user-api.php';
+        require WP_ELEGANT_LEAD_GEN_PATH . 'add-column-to-user.php';
     }
 
     private function __construct() {
