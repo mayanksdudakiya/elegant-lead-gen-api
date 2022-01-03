@@ -32,7 +32,7 @@ class AddColumnToUsers {
 	        	$link = get_user_meta($user_id, 'crm_profile_url', true);
                 
                 if (!empty($link)) {
-                    return sprintf('<a href="%s">CRM Profile</a>', $link);
+                    return sprintf('<a href="%s" target="_blank">CRM Profile</a>', $link);
                 } 
 
                 return '-';
