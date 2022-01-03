@@ -69,7 +69,7 @@ class UserApi {
     }
 
     // Check who can access the rest api
-    public function check_access(\WP_REST_Request $request) {
+    public function check_access(\WP_REST_Request $request): bool {
 
         $username = $request->get_param('username');
 
@@ -91,7 +91,54 @@ class UserApi {
     }
 
     public function create_user(\WP_REST_Request $request) {
-    
+        
+        $params = $request->get_params();
+
+        // Final check email already exists or not
+        if ( email_exists( $params['email_address'] ) ) {
+            return [
+                'code' => 'rest_user_already_exists',
+                'message' => __('Sorry, This user has already been registered', 'elegant-lead-gen'),
+                'data' => [
+                    'status' => 400,
+                    'params' => [
+                        'email_address' => 'User already exists'
+                    ]
+                ]
+            ];
+        }
+
+        // Allow create user without password
+        $userdata = [
+            'user_nicename' => $params['name'],
+            'display_name'  => $params['name'],
+            'user_login'    => $params['email_address'],
+            'user_email'    => $params['email_address'],
+            'user_pass'     =>  NULL,
+            'role'          => 'subscriber',
+            'description'   => $params['message']
+        ];
+
+        $user_id = wp_insert_user($userdata);
+
+        // Add extra piece of information in user
+        add_user_meta($user_id, 'budget', $params['budget']);
+        
+        add_user_meta($user_id, 'phone_number', $params['phone_number']);
+        
+        add_user_meta($user_id, 'crm_id', $params['id']);
+
+        add_user_meta($user_id, 'crm_profile_url', $params['profile_url']);
+
+        $response = [
+            'status' => 200,
+            'message' => __('User successfully created', 'elegant-lead-gen'),
+            'data' => [
+                'wp_user_id' => $user_id
+            ]
+        ];
+
+        return new \WP_REST_Response($response, 200);
     }
 
     private function setup_hooks() {
