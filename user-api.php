@@ -18,6 +18,22 @@ class UserApi {
 
         return self::$_instance;
     }
+
+    /**
+     * Register all APIs end points here
+     * @return void
+     */
+    public function register_apis(): void {
+
+    }
+
+    private function setup_hooks() {
+        add_action( 'rest_api_init', [ $this, 'register_apis' ] );
+    }
+
+    private function __construct() {
+        $this->setup_hooks();
+    }
 }
 
 UserApi::instance();
