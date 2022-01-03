@@ -14,3 +14,9 @@
 if ( ! defined( 'ABSPATH' ) ) :
 	exit; // Exit if accessed directly.
 endif;
+
+define( 'WP_ELEGANT_LEAD_GEN_VERSION', '1.0.0' );
+define( 'WP_ELEGANT_LEAD_GEN__FILE__', __FILE__ );
+define( 'WP_ELEGANT_LEAD_GEN_PLUGIN_BASE', plugin_basename( WP_ELEGANT_LEAD_GEN__FILE__ ) );
+define( 'WP_ELEGANT_LEAD_GEN_PATH', plugin_dir_path( WP_ELEGANT_LEAD_GEN__FILE__ ) );
+
