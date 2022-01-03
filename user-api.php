@@ -32,8 +32,26 @@ class UserApi {
         ], true);
     }
 
+    // Check who can access the rest api
     public function check_access(\WP_REST_Request $request) {
 
+        $username = $request->get_param('username');
+
+        $password = $request->get_param('password');
+
+        // Check username & password are correct & valid
+        $user = wp_authenticate($username, $password);
+
+        if ( is_wp_error($user) ) {
+            return false;
+        }
+
+        // allow only admin to do this
+        if ( !user_can($user->ID, 'manage_options') ) {
+            return false;
+        }
+        
+        return true;
     }
 
     public function create_user(\WP_REST_Request $request) {
