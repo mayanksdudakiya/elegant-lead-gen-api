@@ -20,3 +20,13 @@ define( 'WP_ELEGANT_LEAD_GEN__FILE__', __FILE__ );
 define( 'WP_ELEGANT_LEAD_GEN_PLUGIN_BASE', plugin_basename( WP_ELEGANT_LEAD_GEN__FILE__ ) );
 define( 'WP_ELEGANT_LEAD_GEN_PATH', plugin_dir_path( WP_ELEGANT_LEAD_GEN__FILE__ ) );
 
+/**
+ * Load textdomain and files
+ */
+function wp_elegant_lead_gen_load_plugin() {
+	load_plugin_textdomain( 'elegant-lead-gen' );
+
+    // Load the main plugin file
+	require( WP_ELEGANT_LEAD_GEN_PATH . 'plugin.php' );
+}
+add_action( 'plugins_loaded', 'wp_elegant_lead_gen_load_plugin' );
