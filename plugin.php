@@ -18,6 +18,14 @@ class Plugin {
 
         return self::$_instance;
     }
+
+    private function includes() {
+        require WP_ELEGANT_LEAD_GEN_PATH . 'user-api.php';
+    }
+
+    private function __construct() {
+        $this->includes();
+    }
 }
 
 Plugin::instance();
