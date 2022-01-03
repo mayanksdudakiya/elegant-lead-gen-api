@@ -25,6 +25,19 @@ class UserApi {
      */
     public function register_apis(): void {
 
+        register_rest_route('el/v1', 'user', [
+            'methods' => \WP_REST_Server::CREATABLE,
+            'callback' => [ $this, 'create_user' ],
+            'permission_callback' => [ $this, 'check_access' ]
+        ], true);
+    }
+
+    public function check_access(\WP_REST_Request $request) {
+
+    }
+
+    public function create_user(\WP_REST_Request $request) {
+    
     }
 
     private function setup_hooks() {
